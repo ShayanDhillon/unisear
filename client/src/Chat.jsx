@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 const Chat = () => {
-    const [UniNames, setUniNames] = useState(['Select a University']);
+    const [UniNames, setUniNames] = useState([]);
     const [selectedUni, setSelectedUni] = useState('');
     const [message, setMessage] = useState('');
 
@@ -11,12 +11,14 @@ const Chat = () => {
     //console.log("meow")
 
     useEffect( () => {
-        const api = "localhost:5000/";
+        const api = "http://localhost:4000/api/getInstiution";
+        console.log("api ran")
         
         const fetchData = async() => {
             try{
                 const res = await axios.get(api);
-                setUniNames((prevUniNames) => [...prevUniNames, ...res.data]);
+                setUniNames(['Select a University']);
+                setUniNames((prevUniNames) => [...prevUniNames, ...res.data.sort()]);
                 setLoading(false);
             } catch (e){
                 console.error(e);
