@@ -11,7 +11,7 @@ const Chat = () => {
     //console.log("meow")
 
     useEffect( () => {
-        const api = "http://localhost:4000/api/getInstiution";
+        const api = "http://localhost:4000/api/getInstiutionList";
         console.log("api ran")
         
         const fetchData = async() => {
@@ -30,9 +30,19 @@ const Chat = () => {
 
     }, [])
 
-    const handleSend = () => {
+    const handleSend = async () => {
         console.log(`Selected University: ${selectedUni}`);
         console.log(`Message: ${message}`);
+
+        const requestBody = {
+          instituion: selectedUni,
+          prompt: message,
+        }
+        const api = "http://localhost:4000/api/queryAI";
+        
+        const res = await axios.get(api, requestBody);
+        console.log(res.data);
+
         // Add your send logic here
         alert(`Message to ${selectedUni}: "${message}"`);
     };
