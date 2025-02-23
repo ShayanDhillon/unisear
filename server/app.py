@@ -42,8 +42,9 @@ def main():
   """
   _, dict = getCanadianPostSecondaryInstitutionsData();
   INSTITUTION_NAME = "Wilfrid Laurier University"
-  ai = MLFlowAPI(f"scrapped_data/{INSTITUTION_NAME}", WebScraperAPI(f"{INSTITUTION_NAME}", dict[INSTITUTION_NAME]));
-  ai.storeDataFrameAsVectorDB();
+  #ai = MLFlowAPI(f"scrapped_data/{INSTITUTION_NAME}", WebScraperAPI(f"{INSTITUTION_NAME}", dict[INSTITUTION_NAME]));
+  #ai.storeDataFrameAsVectorDB();
+
 
   #scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"])
   flask_app = FlaskServerAPI();
