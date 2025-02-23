@@ -10,19 +10,17 @@ def getCanadianPostSecondaryInstitutionsData():
   instituion_list = [];
 
   # Hand picked universities to speed up the process
-  dict = {
-    "University of Toronto" : ["http://www.utoronto.ca/"],
-    "University of British Columbia" : ["http://www.ubc.ca/"],
-    "McGill University" : ["http://www.mcgill.ca/"],
-    "University of Alberta" : ["http://www.ualberta.ca/"],
-    "University of Ottawa" : ["http://www.uottawa.ca/"],
-    "Conestoga College" : ["http://www.conestogac.on.ca/"],
-    "University of Waterloo" : ["http://www.uwaterloo.ca/"],
-    "Wilfrid Laurier University" : ["http://www.wlu.ca/"],
-  }
+  #print("DEATH TO ASHLEY")
 
-  for uni in dict:
-    instituion_list.append(uni);
+  
+  url = "http://universities.hipolabs.com/search?country=Canada";
+  dict = {};
+  response = requests.get(url).json();
+  for uni in response:
+    uni_name = uni["name"];
+    dict[uni_name] = uni["web_pages"];
+    instituion_list.append(uni_name);
+  
 
   return instituion_list, dict;
 
@@ -52,6 +50,7 @@ class FlaskServerAPI:
         ai_model = MachineLearningAPI(f"scraped_data/{institution}");
         improved_result = gemini_txt_wrapper(ai_model.query(prompt)["answer"]);
         return improved_result;
+
       else:
         # Invalid institution?
         print(f"Invalid institution {institution} was passed.");
@@ -60,5 +59,6 @@ class FlaskServerAPI:
 
     @self.app.route('/api/getInstiutionList')
     def getInsitutionList():
+
       return jsonify(self.insitution_list);
 

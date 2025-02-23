@@ -20,6 +20,7 @@ def main():
   # Retrieves institution data
   # instiutions_list, instiutions_data = getCanadianPostSecondaryInstitutionsData();
 
+
   # Single line scrapping
   #scrapper = WebScraperAPI("Wilfrid Laurier University", "https://academic-calendar.wlu.ca/index_old.php?cal=1&y=90");
   #scrapper.scrape();
