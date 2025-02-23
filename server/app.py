@@ -37,12 +37,12 @@ def scrapeAllInstitutionsData(institutions_list, institutions_data):
 def main():
   print("Starting Application...");
 
-  #flask_app = FlaskServerAPI();
+  flask_app = FlaskServerAPI();
   # Retrieves institution data
-  # instiutions_list, instiutions_data = getCanadianPostSecondaryInstitutionsData();
+  instiutions_list, instiutions_data = getCanadianPostSecondaryInstitutionsData();
 
   # Single line testing
-  scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"]);
+  #scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"]);
 
   # Full data scraping
   # scrapeAllInstitutionsData(instiutions_list, instiutions_data);
