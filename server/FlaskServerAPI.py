@@ -2,8 +2,9 @@ import requests;
 
 from flask import Flask, jsonify, request;
 from flask_cors import CORS;
-from WebScraperAPI import WebScraperAPI;
-from MlFlowAPI import MLFlowAPI;
+from gemini_module import gemini_txt_wrapper;
+from MachineLearningAPI import MachineLearningAPI;
+
 
 def getCanadianPostSecondaryInstitutionsData():
   instituion_list = [];
@@ -20,7 +21,6 @@ def getCanadianPostSecondaryInstitutionsData():
     dict[uni_name] = uni["web_pages"];
     instituion_list.append(uni_name);
   
-
 
   return instituion_list, dict;
 
@@ -39,17 +39,18 @@ class FlaskServerAPI:
     self.app.run(host='0.0.0.0', port=4000);
     
   def initializeRoutes(self):
-    @self.app.route('/api/queryAI', methods=["GET"])
+    @self.app.route('/api/queryAI', methods=["POST"])
     def queryAI():
-      institution = request.args.get("insitution", "Wilfrid Laurier University");
-      prompt = request.args.get("prompt", "Hello!");
+      data = request.json;
+      institution = data.get("insitution", "Wilfrid Laurier University");
+      prompt = data.get("prompt", "Hello!");
       
       if institution in self.insitution_list:
+        
+        ai_model = MachineLearningAPI(f"scraped_data/{institution}");
+        improved_result = gemini_txt_wrapper(ai_model.query(prompt)["answer"]);
+        return improved_result;
 
-        web_scraper = WebScraperAPI(name=institution, web_pages=self.instituion_data[institution]);
-        ml_model = MLFlowAPI(rf"scrapped_data/{institution}", web_scraper);
-
-        return jsonify(ml_model.summarizeQuery(prompt));
       else:
         # Invalid institution?
         print(f"Invalid institution {institution} was passed.");

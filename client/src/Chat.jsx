@@ -48,9 +48,9 @@ const Chat = () => {
       const api = "http://localhost:4000/api/queryAI";
       
       const callQuery = async () => {
-        const res = await axios.get(api);
-        alert(res.data)
-        
+        const res = await axios.post(api, requestBody);
+        console.log(res.data);
+
       }
 
       callQuery();
