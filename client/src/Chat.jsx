@@ -2,25 +2,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Chat = () => {
-  const [uniNames, setUniNames] = useState([]);
+  const [uniNames, setUniNames] = useState(['Select a University']);
   const [selectedUni, setSelectedUni] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);  // Added state for messages
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const payload = {
-      university_name: 'Wilfrid Laurier University',  // Example data
-      user_query: 'What is the admission process?'  // Example data
-    }
-    const api = "http://localhost:4000/api/getInstiution";
-    console.log("api ran")
+    setUniNames([]);
+    const api = "http://localhost:4000/api/getInstiutionList";
     
     const fetchData = async () => {
         try {
             const res = await axios.get(api);
-            setUniNames(['Select a University']);
-            setUniNames((prevUniNames) => [...prevUniNames, ...res.data.sort()]);
+            setUniNames(['Select A University']);
+            setUniNames((p) => [...p, ...res.data.sort()]);
+
             setLoading(false);
         } catch (e) {
             console.error(e);
@@ -31,10 +28,29 @@ const Chat = () => {
     fetchData();
   }, [])
 
+  useEffect(() =>{
+    if(!selectedUni){
+      setMessages([]);
+    }
+  }, [selectedUni])
+
   const handleSend = () => {
     if (message.trim()) {
       setMessages((prevMessages) => [...prevMessages, message]);  // Add new message to messages state
       setMessage('');  // Clear input box after entry
+      //console.log(messages);
+
+      // call backend
+      const api = "http://localhost:4000/api/queryAI";
+      
+      const callQuery = async () => {
+        const res = await axios.get(api);
+        alert(res.data)
+        
+      }
+
+      callQuery();
+
     }
   };
 
@@ -45,6 +61,7 @@ const Chat = () => {
   };
 
   if (loading) return <div>Loading...</div>;
+
 
   return (
     <div className="flex h-screen bg-yellow-100 p-4">
