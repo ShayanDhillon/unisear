@@ -9,10 +9,6 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const payload = {
-      university_name: 'Wilfrid Laurier University',  // Example data
-      user_query: 'What is the admission process?'  // Example data
-    }
     const api = "http://localhost:4000/api/getInstiution";
     console.log("api ran")
     
@@ -31,6 +27,7 @@ const Chat = () => {
     fetchData();
   }, [])
 
+
   const handleSend = () => {
     if (message.trim()) {
       setMessages((prevMessages) => [...prevMessages, message]);  // Add new message to messages state
@@ -45,6 +42,7 @@ const Chat = () => {
   };
 
   if (loading) return <div>Loading...</div>;
+
 
   return (
     <div className="flex h-screen bg-yellow-100 p-4">
