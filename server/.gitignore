@@ -1,2 +1,3 @@
 __pycache__
-scrapped_data
+scraped_data
+.env

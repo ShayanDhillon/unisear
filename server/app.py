@@ -6,54 +6,31 @@ import asyncio;
 import os;
 import time;
 
-from FlaskServerAPI import FlaskServerAPI, getCanadianPostSecondaryInstitutionsData;
+from transformers import pipeline;
+from FlaskServerAPI import FlaskServerAPI;
 from WebScraperAPI import WebScraperAPI;
-from MlFlowAPI import MLFlowAPI;
+from MachineLearningAPI import MachineLearningAPI;
+from SentenceGrabberAPI import SentenceGrabberAPI;
+from nltk.tokenize import sent_tokenize;
 
-def scrapeInstituionData(instituion, instituion_web_pages):
-  web_scraper = WebScraperAPI(instituion, instituion_web_pages);
-  # First scrape the data;
-  web_scraper.scrape();
-  # Next save the data;
-  web_scraper.saveScrapedData();
-
-  ml_flow_ai = MLFlowAPI(rf"scrapped_data/{instituion}", web_scraper);
-  ml_flow_ai;
-  return web_scraper;
-
-def scrapeAllInstitutionsData(institutions_list, institutions_data):
-  
-  count = 0;
-  for institution in institutions_data:
-
-    count += 1;
-    print(f"Scraping Progress: {count/len(institutions_data)*100:.2f}%");
-
-    scrapeInstituionData(institution, institutions_data[institution]);
-  
 def main():
   print("Starting Application...");
 
-  """
-  WE ASSUME:
-  [1]: Data has been scrapped at least ONCE.
-  [2]: meta_data has been created
-  """
-  _, dict = getCanadianPostSecondaryInstitutionsData();
-  INSTITUTION_NAME = "Wilfrid Laurier University"
-  ai = MLFlowAPI(f"scrapped_data/{INSTITUTION_NAME}", WebScraperAPI(f"{INSTITUTION_NAME}", dict[INSTITUTION_NAME]));
-  ai.storeDataFrameAsVectorDB();
-
-  #scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"])
   flask_app = FlaskServerAPI();
   # Retrieves institution data
   # instiutions_list, instiutions_data = getCanadianPostSecondaryInstitutionsData();
 
-  # Single line testing
-  # scrapper = scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"]);
+  # Single line scrapping
+  #scrapper = WebScraperAPI("Wilfrid Laurier University", "https://academic-calendar.wlu.ca/index_old.php?cal=1&y=90");
+  #scrapper.scrape();
+  #scrapper.saveScrapedData();
   
-  # Full data scraping
-  # scrapeAllInstitutionsData(instiutions_list, instiutions_data);
+  # ml_api = MachineLearningAPI("scraped_data/Wilfrid Laurier University");
+  # Summarizer testing
+  #results = ml_api.summarize("Tell me about coop");
+  #print(results["summary_text"]);
 
-
+  # Q and A testing
+  #answer = ml_api.query("What computer science courses are available?");
+  #print(answer["answer"]);
 main();
