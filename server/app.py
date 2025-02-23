@@ -34,6 +34,7 @@ def scrapeAllInstitutionsData(institutions_list, institutions_data):
 def main():
   print("Starting Application...");
 
+
   """
   WE ASSUME:
   [1]: Data has been scrapped at least ONCE.
@@ -47,9 +48,10 @@ def main():
   #scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"])
   flask_app = FlaskServerAPI();
   # Retrieves institution data
-  # instiutions_list, instiutions_data = getCanadianPostSecondaryInstitutionsData();
+  instiutions_list, instiutions_data = getCanadianPostSecondaryInstitutionsData();
 
   # Single line testing
+
   # scrapper = scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"]);
   
   # Full data scraping
