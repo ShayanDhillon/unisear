@@ -6,15 +6,15 @@ import App from './App.jsx';
 import Chat from './Chat.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  //<StrictMode>
     <Router>
       <Routes>
 
-        <Route path="/" element={<App />} />
+        <Route path="/count" element={<App />} />
         
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/" element={<Chat />} />
 
       </Routes>
     </Router>
-  </StrictMode>, 
+  //</StrictMode>, 
 );

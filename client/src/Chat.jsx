@@ -40,15 +40,26 @@ const Chat = () => {
 
   const handleSend = () => {
     if (message.trim()) {
-      setMessages((prevMessages) => [...prevMessages, message]);  // Add new message to messages state
-      setMessage('');  // Clear input box after entry
+      const newMsg = {text: message, sender:'user'}
+      setMessages((prevMessages) => [...prevMessages, newMsg]);  // Add new message to messages state
+       // Clear input box after entry
       //console.log(messages);
 
       // call backend
       const api = "http://localhost:4000/api/queryAI";
-      
+      const requestBody = {
+        insitution: selectedUni,
+        prompt: message,
+      }
+      setMessage('');
+
       const callQuery = async () => {
         const res = await axios.post(api, requestBody);
+        if(res.data){
+          const aiMsg = { text: res.data, sender: "ai" };
+          setMessages((prevMessages) => [...prevMessages, aiMsg]);
+        }
+        
         console.log(res.data);
 
       }
@@ -184,7 +195,7 @@ const SearchPage = ({ university, message, setMessage, setSelectedUni, handleSen
             <div 
               key={index} 
               style={{
-                backgroundColor: '#a83319',
+                backgroundColor: msg.sender === "user" ? "#a83319" : "#e09422", // User = Red, AI = Blue,
                 padding: '0.5rem',
                 borderRadius: '10px',
                 marginBottom: '0.5rem',
@@ -195,7 +206,7 @@ const SearchPage = ({ university, message, setMessage, setSelectedUni, handleSen
                 fontWeight: 'bold',  // Make the text bold
               }}
             >
-              {msg}
+              {msg.text}
             </div>
           ))}
         </div>

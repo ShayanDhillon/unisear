@@ -44,7 +44,7 @@ class FlaskServerAPI:
       data = request.json;
       institution = data.get("insitution", "Wilfrid Laurier University");
       prompt = data.get("prompt", "Hello!");
-      
+      print("prompt")
       if institution in self.insitution_list:
         
         ai_model = MachineLearningAPI(f"scraped_data/{institution}");
