@@ -48,6 +48,7 @@ class FlaskServerAPI:
 
         web_scraper = WebScraperAPI(name=institution, web_pages=self.instituion_data[institution]);
         ml_model = MLFlowAPI(rf"scrapped_data/{institution}", web_scraper);
+
         return jsonify(ml_model.summarizeQuery(prompt));
       else:
         # Invalid institution?
@@ -57,4 +58,6 @@ class FlaskServerAPI:
 
     @self.app.route('/api/getInstiutionList')
     def getInsitutionList():
+
       return jsonify(self.insitution_list);
+

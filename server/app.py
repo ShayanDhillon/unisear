@@ -45,6 +45,7 @@ def main():
   #ai = MLFlowAPI(f"scrapped_data/{INSTITUTION_NAME}", WebScraperAPI(f"{INSTITUTION_NAME}", dict[INSTITUTION_NAME]));
   #ai.storeDataFrameAsVectorDB();
 
+
   #scrapeInstituionData("Wilfrid Laurier University", ["https://www.wlu.ca/"])
   flask_app = FlaskServerAPI();
   # Retrieves institution data

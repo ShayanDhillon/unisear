@@ -9,8 +9,10 @@ const Chat = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     setUniNames([]);
     const api = "http://localhost:4000/api/getInstiutionList";
+
     
     const fetchData = async () => {
         try {
@@ -28,11 +30,13 @@ const Chat = () => {
     fetchData();
   }, [])
 
+
   useEffect(() =>{
     if(!selectedUni){
       setMessages([]);
     }
   }, [selectedUni])
+
 
   const handleSend = () => {
     if (message.trim()) {
